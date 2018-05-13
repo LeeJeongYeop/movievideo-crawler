@@ -2,10 +2,11 @@ import requests
 import json
 
 import config
-from save_move_list import database-connector
+from database_connector import save_movie_list
 
 MOVIE_LIST_URL = config.MOVIE_LIST_URL
 POST_PARAM_LIST = config.POST_PARAM_LIST
+MAX_MOVIE_COUNT = 15
 
 # 요청 함수
 def get_html(url, param):
@@ -22,6 +23,8 @@ for data in response['Movies']['Items']:
   movie_name = data['MovieNameKR']
   if (movie_name != 'AD'):
     movie_list.append(movie_name)
+  if (len(movie_list) >= MAX_MOVIE_COUNT):
+    break
 
 # 영화리스트 DB저장
-save_move_list(movie_list)
+save_movie_list(movie_list)

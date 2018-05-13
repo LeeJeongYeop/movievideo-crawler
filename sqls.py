@@ -1,0 +1,1 @@
+MOVIE_INSERT_SQL = """INSERT INTO movie(title, crawling_date) VALUES (%s, %s)"""
