@@ -1,11 +1,9 @@
 import requests
 import json
 
-import config
+from config import MOVIE_LIST_URL, POST_PARAM_LIST
 from database_connector import save_movie_list
 
-MOVIE_LIST_URL = config.MOVIE_LIST_URL
-POST_PARAM_LIST = config.POST_PARAM_LIST
 MAX_MOVIE_COUNT = 15
 
 # 요청 함수
@@ -27,4 +25,4 @@ for data in response['Movies']['Items']:
     break
 
 # 영화리스트 DB저장
-save_movie_list(movie_list)
+# save_movie_list(movie_list)
