@@ -13,14 +13,14 @@ def get_conn():
     charset=config.CHARSET)
 
 # 영화 타이틀 저장
-def save_movie_list(movie_list):
+def save_movie_info_list(movie_info_list):
   conn = get_conn()
   cursor = conn.cursor(pymysql.cursors.DictCursor)
   today = datetime.today().strftime('%Y-%m-%d')
-  for movie_title in movie_list:
-    if movie_title == '':
+  for movie_info in movie_info_list:
+    if movie_info['movie_title'] == '':
       continue
-    cursor.execute(MOVIE_INSERT_SQL, (movie_title, today))
+    cursor.execute(MOVIE_INSERT_SQL, (movie_info['movie_title'], movie_info['movie_poster_url'], today))
   conn.commit()
   conn.close()
 

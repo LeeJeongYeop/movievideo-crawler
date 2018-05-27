@@ -2,7 +2,7 @@ import requests
 import json
 
 from config import MOVIE_LIST_URL, POST_PARAM_LIST
-from database_connector import save_movie_list
+from database_connector import save_movie_info_list
 
 MAX_MOVIE_COUNT = 15
 
@@ -16,13 +16,17 @@ param = {'paramList': POST_PARAM_LIST}
 response = json.loads(get_html(MOVIE_LIST_URL, param))
 
 # 영화리스트 추가
-movie_list = []
+movie_info_list = []
 for data in response['Movies']['Items']:
-  movie_name = data['MovieNameKR']
-  if (movie_name != 'AD'):
-    movie_list.append(movie_name)
-  if (len(movie_list) >= MAX_MOVIE_COUNT):
+  data['PosterURL']
+  movie_title = data['MovieNameKR']
+  if (data['MovieNameKR'] != 'AD'):
+    movie_info_list.append({
+      "movie_title": data['MovieNameKR'],
+      "movie_poster_url": data['PosterURL']
+    })
+  if (len(movie_info_list) >= MAX_MOVIE_COUNT):
     break
 
 # 영화리스트 DB저장
-# save_movie_list(movie_list)
+save_movie_info_list(movie_info_list)
