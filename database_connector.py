@@ -2,7 +2,7 @@ import pymysql
 from datetime import datetime
 
 import config
-from sqls import MOVIE_INSERT_SQL, MOVIE_LIST_SQL
+from sqls import MOVIE_INSERT_SQL, MOVIE_LIST_SQL, LATELY_MOVIE_CRAWL_DATA
 
 def get_conn():
   return pymysql.connect(
@@ -32,3 +32,12 @@ def get_movie_list(today):
   conn.commit()
   conn.close()
   return cursor.fetchall()
+
+# 최근 영화 크롤링 날짜
+def get_lately_movie_crawl_date():
+  conn = get_conn()
+  cursor = conn.cursor(pymysql.cursors.DictCursor)
+  cursor.execute(LATELY_MOVIE_CRAWL_DATA)
+  conn.commit()
+  conn.close()
+  return str(cursor.fetchone()['lately_date'])
