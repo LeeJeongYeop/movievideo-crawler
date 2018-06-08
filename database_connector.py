@@ -2,7 +2,7 @@ import pymysql
 from datetime import datetime
 
 import config
-from sqls import MOVIE_INSERT_SQL, MOVIE_LIST_SQL, LATELY_MOVIE_CRAWL_DATA, VIDEO_INSERT_SQL
+from sqls import MOVIE_INSERT_SQL, MOVIE_LIST_SQL, LATELY_MOVIE_CRAWL_DATA, VIDEO_ID_DISTINCT_LIST_SQL, VIDEO_INSERT_SQL
 
 def get_conn():
   return pymysql.connect(
@@ -41,6 +41,18 @@ def get_lately_movie_crawl_date():
   conn.commit()
   conn.close()
   return str(cursor.fetchone()['lately_date'])
+
+# video_id 중복제거 리스트
+def get_video_id_distinct_list(movie_title):
+  conn = get_conn()
+  cursor = conn.cursor(pymysql.cursors.DictCursor)
+  cursor.execute(VIDEO_ID_DISTINCT_LIST_SQL, (movie_title))
+  conn.commit()
+  conn.close()
+  video_id_set = []
+  for row in cursor.fetchall():
+    video_id_set.append(row['video_id'])
+  return video_id_set
 
 # 영상 정보 리스트 저장
 def save_video_info_list(video_info_list):
